@@ -1,0 +1,29 @@
+# 로컬 환경 용 (HTTPS)
+localhost {
+    route /backend/* {
+        uri strip_prefix /backend
+        reverse_proxy backend:8080
+    }
+    redir /backend /backend/
+
+    route /frontend/* {
+        uri strip_prefix /frontend
+        reverse_proxy frontend:80
+    }
+    redir /frontend /frontend/
+}
+
+# 개발 서버 배포 용 (HTTP)
+http:// {
+    route /backend/* {
+        uri strip_prefix /backend
+        reverse_proxy backend:8080
+    }
+    redir /backend /backend/
+
+    route /frontend/* {
+        uri strip_prefix /frontend
+        reverse_proxy frontend:80
+    }
+    redir /frontend /frontend/
+}

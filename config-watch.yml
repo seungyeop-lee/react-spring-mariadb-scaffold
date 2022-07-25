@@ -1,0 +1,23 @@
+initCmd: "make up"
+endCmd: "make down"
+beforeCmd:
+afterCmd:
+  cmd: "bash cmd.sh rmi"
+  dir: ""
+sets:
+  - path: "backend/src/main"
+    cmd:
+      cmd: "bash cmd.sh build update"
+      dir: "backend"
+    excludeDir:
+      - "backend/src/main/generated"
+    waitMillisecond: 1000
+  - path: "frontend"
+    initCmd: "bash cmd.sh watch"
+    excludeDir:
+      - "frontend"
+  - path: "frontend/dist"
+    cmd:
+      cmd: "bash cmd.sh update"
+      dir: "frontend"
+    waitMillisecond: 1000

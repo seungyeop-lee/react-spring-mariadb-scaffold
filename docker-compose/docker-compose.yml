@@ -1,0 +1,51 @@
+version: '3'
+services:
+  caddy:
+    image: caddy:2-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ../caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ../caddy/site:/srv
+      - ../caddy/data:/data
+      - ../caddy/config:/config
+    restart: unless-stopped
+  backend:
+    build:
+      context: ../backend
+      dockerfile: run-bootJar.Dockerfile
+    ports:
+      - "8080:8080"
+      - "5005:5005"
+    working_dir: "/app"
+    entrypoint:
+      - "./wait-for-it.sh"
+      - "db:3306"
+      - "-t"
+      - "0"
+      - "--"
+      - "java"
+      - "-jar"
+      - "-Dspring.profiles.active=default"
+      - "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+      - "app.jar"
+  db:
+    image: mariadb:10.6
+    volumes:
+      - ../db/conf.d:/etc/mysql/conf.d
+      - ../db/data:/var/lib/mysql
+      - ../db/initdb.d:/docker-entrypoint-initdb.d
+    env_file: ../db/.env
+    environment:
+      TZ: Asia/Seoul
+    ports:
+      - "3306:3306"
+    restart: always
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: deploy-dist.Dockerfile
+    ports:
+      - "8081:80"
+    restart: unless-stopped

@@ -1,0 +1,6 @@
+.idea/
+.vscode/
+db/data/
+caddy/data/
+caddy/config/
+caddy/site/
