@@ -30,12 +30,12 @@ function runCommand() {
     fi
 
   # watch
-    elif [ "$1" = "watch" ]; then
-      npm run watch-build
-      status=$?
-      if [ $status != 0 ]; then
-        exit 1
-      fi
+  elif [ "$1" = "watch" ]; then
+    npm run watch-build
+    status=$?
+    if [ $status != 0 ]; then
+      exit 1
+    fi
   fi
 }
 

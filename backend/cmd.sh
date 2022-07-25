@@ -8,19 +8,15 @@ service_name="backend"
 OS="$(uname)"
 case $OS in
 Linux*)
-  OS='Linux'
   gradlew="./gradlew"
   ;;
 WindowsNT*)
-  OS='Windows'
   gradlew="./gradlew.bat"
   ;;
 Darwin*)
-  OS='Mac'
   gradlew="./gradlew"
   ;;
 MINGW*)
-  OS='MINGW'
   gradlew="./gradlew.bat"
   ;;
 *) ;;
